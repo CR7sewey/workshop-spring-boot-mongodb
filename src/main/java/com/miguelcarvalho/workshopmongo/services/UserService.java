@@ -33,9 +33,18 @@ public class UserService {
 		
 	}
 	
+	public void delete(String id) {
+		findById(id); // para tratar excecao, faz a busca priemiro
+		repository.deleteById(id);
+		
+	}
+	
 	public User fromDTO(UserDTO userDto) {  // instanicar usuario a partir do dto, fizemos aqui em vez de no userDto, para instanciar o user podemos querer instanciar o banco de dados, e quem ja tem a dependcia para o banco de dados é o user service
 		User user = new User(userDto.getId(),userDto.getName(),userDto.getEmail());
 		return user;
 	}
+	
+
+	
 
 }
