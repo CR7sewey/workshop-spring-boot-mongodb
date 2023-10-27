@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.miguelcarvalho.workshopmongo.domain.User;
+import com.miguelcarvalho.workshopmongo.dto.UserDTO;
 import com.miguelcarvalho.workshopmongo.repository.UserRepository;
 import com.miguelcarvalho.workshopmongo.services.exception.ObjectNotFoundException;
 
@@ -25,6 +26,16 @@ public class UserService {
 		Optional<User> user = repository.findById(id);
 		return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 
+	}
+	
+	public User insert(User user) {
+		return repository.insert(user);
+		
+	}
+	
+	public User fromDTO(UserDTO userDto) {  // instanicar usuario a partir do dto, fizemos aqui em vez de no userDto, para instanciar o user podemos querer instanciar o banco de dados, e quem ja tem a dependcia para o banco de dados é o user service
+		User user = new User(userDto.getId(),userDto.getName(),userDto.getEmail());
+		return user;
 	}
 
 }

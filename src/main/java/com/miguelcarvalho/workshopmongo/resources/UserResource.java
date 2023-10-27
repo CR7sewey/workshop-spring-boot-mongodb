@@ -1,5 +1,6 @@
 package com.miguelcarvalho.workshopmongo.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.miguelcarvalho.workshopmongo.domain.User;
 import com.miguelcarvalho.workshopmongo.dto.UserDTO;
@@ -37,6 +41,16 @@ public class UserResource {
 		UserDTO userDto = new UserDTO(user);
 		return ResponseEntity.ok().body(userDto); // --> 404 no postman, nao pode dar o interno 500
 
+	}
+	
+	@PostMapping
+	public ResponseEntity<Void> insert(@RequestBody UserDTO obj) {
+
+		User user = service.fromDTO(obj);
+		user = service.insert(user);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+		return ResponseEntity.created(uri).build(); // --> 201 e cabeçaljo com o uri!!, retorna vazio mas no header esta la o caminho
+		
 	}
 
 }
