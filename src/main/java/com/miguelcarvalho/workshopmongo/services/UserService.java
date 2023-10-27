@@ -39,10 +39,25 @@ public class UserService {
 		
 	}
 	
+	public User update(User userUpdated) {
+		User newUser = findById(userUpdated.getId());
+		updateData(newUser,userUpdated);
+		return repository.save(newUser);
+	
+	}
+	
+	
 	public User fromDTO(UserDTO userDto) {  // instanicar usuario a partir do dto, fizemos aqui em vez de no userDto, para instanciar o user podemos querer instanciar o banco de dados, e quem ja tem a dependcia para o banco de dados é o user service
 		User user = new User(userDto.getId(),userDto.getName(),userDto.getEmail());
 		return user;
 	}
+	
+	private void updateData(User user,User newUser) {
+		user.setName(newUser.getName());
+		user.setEmail(newUser.getEmail());
+		
+	}
+	
 	
 
 	
