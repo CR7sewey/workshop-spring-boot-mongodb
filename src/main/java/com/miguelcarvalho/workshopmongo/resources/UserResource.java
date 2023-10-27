@@ -1,6 +1,7 @@
 package com.miguelcarvalho.workshopmongo.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.miguelcarvalho.workshopmongo.domain.Post;
 import com.miguelcarvalho.workshopmongo.domain.User;
 import com.miguelcarvalho.workshopmongo.dto.UserDTO;
 import com.miguelcarvalho.workshopmongo.services.UserService;
@@ -36,7 +38,7 @@ public class UserResource {
 		return ResponseEntity.ok().body(listDto); // --> 200 no postman
 	}
 
-	@GetMapping(value="/{id}")
+	@GetMapping(value="/{id}") // este caminho equivale ao que ele faz!! no postman
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
 
 		User user = service.findById(id);
@@ -70,5 +72,15 @@ public class UserResource {
 		return ResponseEntity.noContent().build(); // --> 204 --> no contant
 		
 	}
+	
+	@GetMapping(value="/{id}/posts")
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+
+		List<Post> posts = service.findById(id).getPosts();	
+		return ResponseEntity.ok().body(posts); // --> 404 no postman, nao pode dar o interno 500
+
+	}
+	
+	
 
 }
