@@ -1,15 +1,18 @@
 package com.miguelcarvalho.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.miguelcarvalho.workshopmongo.dto.AuthorDTO;
+import com.miguelcarvalho.workshopmongo.dto.CommentDTO;
 
-@Document(collection="post")
+@Document
 public class Post implements Serializable {
 
 	/**
@@ -25,6 +28,8 @@ public class Post implements Serializable {
 
 	private AuthorDTO author; // user aninhado no post, ver pdf ultima folha!! tofo o post vira agregado com todos os dados do post e autor associado
 
+	private List<CommentDTO> comments = new ArrayList<>(); // comentarios aninhados no post!
+	
 	public Post() {
 	}
 
@@ -75,6 +80,14 @@ public class Post implements Serializable {
 
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
+	}
+	
+	public List<CommentDTO> getComment() {
+		return comments;
+	}
+
+	public void setComment(List<CommentDTO> comment) {
+		this.comments = comment;
 	}
 
 	@Override
