@@ -1,18 +1,17 @@
 package com.miguelcarvalho.workshopmongo.resources;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miguelcarvalho.workshopmongo.domain.Post;
-import com.miguelcarvalho.workshopmongo.domain.User;
-import com.miguelcarvalho.workshopmongo.dto.UserDTO;
+import com.miguelcarvalho.workshopmongo.resources.util.URL;
 import com.miguelcarvalho.workshopmongo.services.PostService;
 
 @RestController
@@ -37,7 +36,15 @@ public class PostResource {
 
 	}
 	
+	// ver pdf com links para ver as hiposteses de keywords
 	
+	// buscar titulos com o texto la!
+	@GetMapping(value="/titlesearch")  // busca no postman
+	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text",defaultValue="") String text) {  // value text para ser o que é inserido
+		text = URL.decodeParam(text); //decodifica o text!
+		List<Post> posts = service.findByTitle(text);
+		return ResponseEntity.ok().body(posts);
+	}
 	
 
 }
