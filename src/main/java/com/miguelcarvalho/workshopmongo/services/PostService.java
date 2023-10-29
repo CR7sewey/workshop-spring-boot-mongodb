@@ -1,5 +1,6 @@
 package com.miguelcarvalho.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,12 @@ public class PostService {
 	public List<Post> findByTitle(String text) {
 		//return repository.findByTitleContainingIgnoreCase(text);
 		return repository.searchTitle(text);
+	}
+	
+	public List<Post> fullSearch(String text,Date dataMin, Date dataMax) {
+		//return repository.findByTitleContainingIgnoreCase(text);
+		dataMax = new Date(dataMax.getTime()+24*60*60*1000); // para ir para o dia a seguir, procurar ate ao final do dia!!
+		return repository.fullSearch(text,dataMin,dataMax);
 	}
 	
 	
